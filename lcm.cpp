@@ -1,3 +1,4 @@
+// Full ok Code
 #include <iostream>
 
 long long lcm_naive(int a, int b) {

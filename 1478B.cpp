@@ -17,7 +17,6 @@
 #include<vector>
 #include<cstring>
 #include<map>
-#include<unordered_map>
 #include<iterator>
 #include<limits>
 
@@ -108,26 +107,28 @@ int dy[]={+1, -1, +0, +0, -1, +1, +1, -1};
     @author: Badhan Sen
     @mail: badhan.cse@gmail.com
     @My code start from here
+    not done yet
 */
 
+bool solve(int num, int digit){
+    while(num){
+        int r = num % 10;
+        if(r == digit) return true;
+        num /= 10;
+    }
+    return false;
+}
 
 int main(){
     int t;
     cin >> t;
     while(t--){
-        string st;
-        cin >> st;
-        for(int i = 0; i < st.size(); i++){
-            if(i % 2 == 0){
-                if(st[i] == 'a') st[i] = 'b';
-                else st[i] = 'a';
-            }
-            else{
-                if(st[i] == 'z') st[i] = 'y';
-                else st[i] = 'z';
-            }
+        int n;
+        cin >> n;
+        for(int i = 0; i < n; i++){
+
         }
-        cout << st << endl;
     }
     return 0;
 }
+

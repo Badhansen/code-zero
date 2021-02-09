@@ -115,19 +115,47 @@ int main(){
     int t;
     cin >> t;
     while(t--){
-        string st;
-        cin >> st;
-        for(int i = 0; i < st.size(); i++){
-            if(i % 2 == 0){
-                if(st[i] == 'a') st[i] = 'b';
-                else st[i] = 'a';
+        long long a, b, n;
+        cin >> a >> b >> n;
+        vector<int> an(n);
+        vector<pair<int, int>> bn;
+        for(int i = 0; i < n; i++){
+            cin >> an[i];
+        }
+        for(int i = 0; i < n; i++){
+            int bb;
+            cin >> bb;
+            bn.push_back({bb, an[i]});
+        }
+        sort(bn.begin(), bn.end());
+        bool flag = true;
+        for(int i = 0; i < n; i++){
+            if(b <= 0){
+                flag = false;
+                break;
+            }
+            if(bn[i].first <= b){
+                continue;
             }
             else{
-                if(st[i] == 'z') st[i] = 'y';
-                else st[i] = 'z';
+                if(bn[i].second > a){
+                    flag = false;
+                    break;
+                }
+                else{
+                    int attack = bn[i].first / a;
+                    b -= (1ll * attack * bn[i].second);
+                }
             }
         }
-        cout << st << endl;
+        if(flag && b >= 0){
+            cout << "YES" << endl;
+        }
+        else{
+            cout << "NO" << endl;
+        }
+
     }
     return 0;
 }
+

@@ -17,7 +17,6 @@
 #include<vector>
 #include<cstring>
 #include<map>
-#include<unordered_map>
 #include<iterator>
 #include<limits>
 
@@ -115,19 +114,38 @@ int main(){
     int t;
     cin >> t;
     while(t--){
-        string st;
-        cin >> st;
-        for(int i = 0; i < st.size(); i++){
-            if(i % 2 == 0){
-                if(st[i] == 'a') st[i] = 'b';
-                else st[i] = 'a';
+        int n, k;
+        cin >> n >> k;
+        vector<int> v(n);
+        for(int i = 0; i < n; i++){
+            cin >> v[i];
+        }
+        int pos = 0;
+        for(int i = 1; i <= k; i++){
+            int j = 1;
+            for(; j < n;){
+                if(v[j] > v[j - 1]){
+                    v[j - 1]++;
+                    pos = j - 1;
+                    break;
+                }
+                else{
+                    pos = j;
+                    j++;
+                }
             }
-            else{
-                if(st[i] == 'z') st[i] = 'y';
-                else st[i] = 'z';
+            if(j == n){
+                pos = -1;
+                break;
             }
         }
-        cout << st << endl;
+        if(pos == -1)
+            cout << pos << endl;
+        else
+            cout << pos + 1 << endl;
     }
     return 0;
 }
+
+
+

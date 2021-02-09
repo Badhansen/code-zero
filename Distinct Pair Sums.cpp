@@ -17,7 +17,6 @@
 #include<vector>
 #include<cstring>
 #include<map>
-#include<unordered_map>
 #include<iterator>
 #include<limits>
 
@@ -110,24 +109,17 @@ int dy[]={+1, -1, +0, +0, -1, +1, +1, -1};
     @My code start from here
 */
 
-
 int main(){
+    FIO();
     int t;
     cin >> t;
     while(t--){
-        string st;
-        cin >> st;
-        for(int i = 0; i < st.size(); i++){
-            if(i % 2 == 0){
-                if(st[i] == 'a') st[i] = 'b';
-                else st[i] = 'a';
-            }
-            else{
-                if(st[i] == 'z') st[i] = 'y';
-                else st[i] = 'z';
-            }
-        }
-        cout << st << endl;
+        int l, r;
+        cin >> l >> r;
+        int diff = r - l + 1;
+        int ans = diff + diff - 1;
+        cout << ans << endl;
     }
     return 0;
 }
+

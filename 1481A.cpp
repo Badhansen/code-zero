@@ -17,7 +17,6 @@
 #include<vector>
 #include<cstring>
 #include<map>
-#include<unordered_map>
 #include<iterator>
 #include<limits>
 
@@ -115,19 +114,39 @@ int main(){
     int t;
     cin >> t;
     while(t--){
+        int px, py;
+        cin >> px >> py;
         string st;
         cin >> st;
+        int l, r, u, d;
+        l = r = u = d = 0;
         for(int i = 0; i < st.size(); i++){
-            if(i % 2 == 0){
-                if(st[i] == 'a') st[i] = 'b';
-                else st[i] = 'a';
-            }
-            else{
-                if(st[i] == 'z') st[i] = 'y';
-                else st[i] = 'z';
-            }
+            if(st[i] == 'L') l++;
+            else if(st[i] == 'R') r++;
+            else if(st[i] == 'U') u++;
+            else d++;
         }
-        cout << st << endl;
+        bool flag = true;
+        if(px >= 0){
+            if(r < px) flag = false;
+        }
+        else{
+            if(l < abs(px)) flag = false;
+        }
+        if(py >= 0){
+            if(u < py) flag = false;
+        }
+        else{
+            if(d < abs(py)) flag = false;
+        }
+        if(flag){
+            cout << "YES" << endl;
+        }
+        else{
+            cout << "NO" << endl;
+        }
     }
     return 0;
 }
+
+

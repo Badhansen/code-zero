@@ -17,7 +17,6 @@
 #include<vector>
 #include<cstring>
 #include<map>
-#include<unordered_map>
 #include<iterator>
 #include<limits>
 
@@ -115,19 +114,60 @@ int main(){
     int t;
     cin >> t;
     while(t--){
-        string st;
-        cin >> st;
-        for(int i = 0; i < st.size(); i++){
-            if(i % 2 == 0){
-                if(st[i] == 'a') st[i] = 'b';
-                else st[i] = 'a';
+        int n, m;
+        cin >> n >> m;
+        string st[n + 1];
+        for(int i = 0; i < n; i++){
+            cin >> st[i];
+        }
+        vector<int> pr(n + 1, 0), br(n + 1, 0);
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(j % 2 == 0){
+                    // I want to make .*.*
+                    if(st[i][j] == '.') continue;
+                    else{
+                        pr[i]++;
+                    }
+                }
+                if(j % 2 == 1){
+                    if(st[i][j] == '*') continue;
+                    else{
+                        pr[i]++;
+                    }
+                }
             }
-            else{
-                if(st[i] == 'z') st[i] = 'y';
-                else st[i] = 'z';
+            for(int j = 0; j < m; j++){
+                if(j % 2 == 0){
+                    // I want to make *.*.
+                    if(st[i][j] == '*') continue;
+                    else{
+                        br[i]++;
+                    }
+                }
+                if(j % 2 == 1){
+                    if(st[i][j] == '.') continue;
+                    else{
+                        br[i]++;
+                    }
+                }
             }
         }
-        cout << st << endl;
+        int fr = 0, bac = 0;
+        for(int i = 0; i < n; i += 2){
+            fr += pr[i];
+        }
+        for(int i = 1; i < n; i += 2){
+            fr += br[i];
+        }
+        for(int i = 1; i < n; i += 2){
+            bac += pr[i];
+        }
+        for(int i = 0; i < n; i += 2){
+            bac += br[i];
+        }
+        cout << min(fr, bac) << endl;
     }
     return 0;
 }
+

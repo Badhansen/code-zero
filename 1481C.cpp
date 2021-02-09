@@ -17,7 +17,6 @@
 #include<vector>
 #include<cstring>
 #include<map>
-#include<unordered_map>
 #include<iterator>
 #include<limits>
 
@@ -115,19 +114,66 @@ int main(){
     int t;
     cin >> t;
     while(t--){
-        string st;
-        cin >> st;
-        for(int i = 0; i < st.size(); i++){
-            if(i % 2 == 0){
-                if(st[i] == 'a') st[i] = 'b';
-                else st[i] = 'a';
-            }
+        int n, m;
+        cin >> n >> m;
+        vector<int> a(n + 1), b(n + 1);
+        vector<int> paint[n + 1];
+        vector<int> isSame(n + 1, -1);
+        int Zcnt = 0, Pcnt = 0, Ucnt = 0;
+        for(int i = 0; i < n; i++){
+            cin >> a[i];
+        }
+        for(int i = 0; i < n; i++){
+            cin >> b[i];
+            if(b[i] == a[i]) isSame[b[i]] = i;
             else{
-                if(st[i] == 'z') st[i] = 'y';
-                else st[i] = 'z';
+                paint[b[i]].push_back(i);
+                if(paint[b[i]].size() == 1) Ucnt++;
             }
         }
-        cout << st << endl;
+        vector<int> ans(m + 1, -1);
+        vector<int> pend;
+        for(int i = 0; i < m; i++){
+            int x;
+            cin >> x;
+            if(paint[x].size()){
+                ans[i] = paint[x].back();
+                if(pend.size()){
+                    ans[pend.back()] = ans[i];
+                    pend.pop_back();
+                }
+                paint[x].pop_back();
+                if((int)paint[x].size() == 0) Zcnt++;
+            }
+            else{
+                if(isSame[x] == -1){
+                    pend.push_back(i);
+                }
+                else{
+                    ans[i] = isSame[x];
+                    if((int)pend.size()){
+                        ans[pend.back()] = ans[i];
+                        while(!pend.empty())
+                            pend.pop_back();
+                    }
+                }
+            }
+        }
+        cout << Zcnt << " " << Ucnt << endl;
+        if(Zcnt == Ucnt && (int)pend.size() == 0){
+            cout << "YES" << endl;
+            for(int i = 0; i < m; i++){
+                cout << ans[i] + 1 << " ";
+            }
+            cout << endl;
+        }
+        else{
+            cout << "NO" << endl;
+        }
     }
     return 0;
 }
+
+
+
+

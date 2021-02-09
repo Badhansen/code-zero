@@ -17,7 +17,6 @@
 #include<vector>
 #include<cstring>
 #include<map>
-#include<unordered_map>
 #include<iterator>
 #include<limits>
 
@@ -110,24 +109,36 @@ int dy[]={+1, -1, +0, +0, -1, +1, +1, -1};
     @My code start from here
 */
 
+const int maxn = 1000000 + 1;
+bool vis[maxn];
+vector<int> prime;
 
+void solve()
+{
+    memset(vis, true, sizeof(vis));
+    for(int p = 2; p * p <= maxn; p++){
+        if(vis[p] == true){
+            for(int i = p * p; i <= maxn; i += p)
+                vis[i] = false;
+        }
+    }
+    for(int p = 3; p <= maxn; p++){
+        if(vis[p] && vis[p + 2])
+            prime.push_back(2 + p);
+    }
+
+}
 int main(){
+    FIO();
+    solve();
     int t;
     cin >> t;
     while(t--){
-        string st;
-        cin >> st;
-        for(int i = 0; i < st.size(); i++){
-            if(i % 2 == 0){
-                if(st[i] == 'a') st[i] = 'b';
-                else st[i] = 'a';
-            }
-            else{
-                if(st[i] == 'z') st[i] = 'y';
-                else st[i] = 'z';
-            }
-        }
-        cout << st << endl;
+        int n;
+        cin >> n;
+        int total = upper_bound(prime.begin(), prime.end(), n) - prime.begin();
+        cout << total << endl;
     }
     return 0;
 }
+

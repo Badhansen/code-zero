@@ -1,0 +1,262 @@
+#include<cstdio>
+#include<iomanip>
+#include<sstream>
+#include<cstdlib>
+#include<cctype>
+#include<cmath>
+#include<algorithm>
+#include<set>
+#include<queue>
+#include<deque>
+#include<stack>
+#include<list>
+#include<iostream>
+#include<fstream>
+#include<numeric>
+#include<string>
+#include<vector>
+#include<cstring>
+#include<map>
+#include<unordered_map>
+#include<iterator>
+#include<limits>
+
+using namespace std;
+
+#define filein()       freopen("in.txt", "r", stdin)
+#define fileout()      freopen("out.txt", "w", stdout)
+
+#define FIO()          ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0)
+
+#define all(x)         x.begin(), x.end()
+#define nfound(v, n)   find(all(v), n)==v.end()
+#define found(v, n)    find(all(v), n)!=v.end()
+#define UB(v, n)       upper_bound(all(v), n)-v.begin()
+#define LB(v, n)       lower_bound(all(v), n)-v.begin()
+
+#define on(n, p)       (n | (1<<(p)))
+#define off(n, p)      (n & ~(1<<(p)))
+#define check(n, p)    (bool)(n & (1<<(p)))
+
+#define MS(x, v)       memset(&x, v, sizeof(x))
+#define CL(x)          memset(&x, 0, sizeof(x))
+#define mp             make_pair
+#define pb             push_back
+#define p              push
+#define sz             size
+#define cl             clear
+#define po             pop
+#define em             emplty
+#define ss             second
+#define fi             first
+
+#define sf             scanf
+#define pf             printf
+#define pf1(n)         pf("%d", n)
+#define sc1(n)         sf ("%d", &n)
+#define scl1(n)        sf ("%I64d", &n)
+#define sc2(n, m)      sf ("%d %d", &n, &m)
+#define scl2(n, m)     sf ("%I64d %I64d", &n, &m)
+#define sc3(n, m, v)   sf ("%d %d %d", &n, &m, &v)
+#define scl3(n, m, v)  sf ("%I64d %I64d %I64d", &n, &m, &v)
+#define nl()           pf ("\n")
+
+#define Iterator(s)    for (typeof(s.begin()) it=s.begin(); it!=s.end(); it++)
+#define FOR(i, k, n)   for (i=k; i<=n; i++)
+#define For(i, k, n)   for (i=k; i<n; i++)
+#define ROF(i, n)      for (i=n; i>=0; i--)
+#define REP(i, n)      for (i=0; i<n; i++)
+
+#define Max(x, y)      ((x)>(y) ? (x) : (y))
+#define Min(x, y)      ((x)<(y) ? (x) : (y))
+#define Abs(x)         ((x)<0 ? (-(x)): (x))
+
+#define PI             acos(-1.0)
+#define EPS            1e-9
+
+#define MAX            2e18
+#define MOD            1000000007
+
+typedef long long Long;
+typedef unsigned long long ULong;
+typedef pair<int, int> pii;
+typedef pair<Long, Long> pll;
+typedef vector<int> vi;
+typedef vector<Long> vl;
+
+template<class T> inline void IO (T &x){char c=getchar();T sgn=1;while(c<'0' || c>'9'){if (c=='-') sgn=-1;c=getchar();}x=0;while(c>='0' && c<='9'){x=(T)(x<<1)+(x<<3)+c-'0';c=getchar();}x*=sgn;}
+template<class T> T POW (T b, T p){T res=1;while(p>0){if (p&1) res*=b;p >>= (1ll), b*=b;}return res;}
+template<class T> T bMOD (T a, T p, T m){if (p==0) return (T) 1;if (!(p&1)){T temp=bMOD(a, p/2, m);return ((temp%m)*(temp%m))%m;}return ((a%m)*(bMOD(a, p-1, m)%m))%m;}
+template<class T> T inMOD (T a, T m){return bMOD (a, m-2, m);}
+template<class T> bool isPrime (T n){for (T i=2; i*i<=n; i++){if (n%i==0) return false;}return true;}
+template<class T> string toString (T n){stringstream ss;string num;ss<<n;ss>>num;return num;}
+template<class T> T sq (T n){return (n*n);}
+template<class T> T gcd (T a, T b){return (b==0) ? a : gcd (b, a%b);}
+template<class T> T lcm (T a, T b){return (a/gcd (a, b))*b;}
+bool iseq (double a, double b){return fabs(a-b)<EPS;}
+template<class T> T toDeg (T x){return (180.0*x)/((T)PI);}
+template<class T> T toReg (T x){return (x*(T)PI)/(180.0);}
+template<class T> double _distance (T x1, T y1, T x2, T y2){return 1.0*sqrt(sq(x1-x2)+sq(y1-y2));}
+
+int kx[]={-2, -2, +2, +2, +1, -1, +1, -1};
+int ky[]={+1, -1, +1, -1, -2, -2, +2, +2};
+
+int dx[]={+0, +0, -1, +1, +1, +1, -1, -1};
+int dy[]={+1, -1, +0, +0, -1, +1, +1, -1};
+
+/*
+    @author: Badhan Sen
+    @mail: badhan.cse@gmail.com
+    @My code start from here
+*/
+const int maxn = 1e7 + 11;
+const int N=1e6+10;
+int arr[maxn],check[N];
+int dp[maxn],pr[N];
+vector<int> prime , g[N];
+
+int _find(int r){
+    return (pr[r]==r)?r:pr[r]=_find(pr[r]);
+}
+void seive(){
+    prime.push_back(2);
+    for(int i = 4; i < maxn; i += 2){
+        dp[i] = true;
+    }
+    for(int i = 3; i * i < maxn; i += 2){
+        if(!dp[i]){
+            prime.push_back(i);
+            for(int j = i * i; j < maxn; j += (2 * i)){
+                dp[j] = true;
+            }
+        }
+    }
+}
+int main(){
+    seive();
+    int t;
+    scanf("%d", &t);
+    while(t--){
+        int n, k;
+        scanf("%d%d", &n, &k);
+        for(int i = 0; i < n; i++){
+            scanf("%d", &arr[i]);
+        }
+        for(int i = 0; i < n; i++){
+            int p = 0;
+            int num = arr[i], ans = 1;
+            while(prime[p] * prime[p] <= num){
+                if(num % prime[p] == 0){
+                    int cnt = 0;
+                    while(num % prime[p] == 0){
+                        num /= prime[p];
+                        cnt++;
+                    }
+                    //cout << prime[p] <<endl;
+                    if(cnt & 1){
+                        ans *= prime[p];
+                    }
+                }
+                p++;
+            }
+            if(num) ans *= num;
+            arr[i] = ans;
+            //cout << arr[i] << endl;
+        }
+        vector<set<int>> vt;
+        set<int> st;
+        int ans = 0;
+        for(int i = 0; i < n; i++){
+            if(st.count(arr[i])){
+                pr[ans]=ans;
+                sort(g[ans].begin(),g[ans].end());
+                st.clear();
+                ans++;
+            }
+            st.insert(arr[i]);
+            g[ans].push_back(arr[i]);
+        }
+        if(st.size()){
+            pr[ans]=ans;
+            st.clear();
+            sort(g[ans].begin(),g[ans].end());
+            ans++;
+        }
+
+        while(k){
+            int mx = 21;
+            int cnt1 = 0;
+            //cout<<"nasu"<<endl;
+            for(int i = 0; i <ans-1; i++){
+                int l1 = 0 , l2 =0,cnt=0;
+                int uu = _find(i);
+                int vv = _find(i+1);
+                //cout<<i<<" "<<i+1<<" "<<uu<<" "<<vv<<endl;
+                if ( uu == vv) continue;
+
+                while( l1<g[uu].size() and l2 < g[vv].size()){
+                    if(g[uu][l1] == g[vv][l2]){
+                        cnt++;
+                        l1++;
+                        l2++;
+                    }else if(g[i][l1] < g[i+1][l2]) l1++;
+                    else l2++;
+                }
+                check[i] = cnt;
+                mx = min(mx,cnt);
+                cnt1++;
+            }
+            if(!cnt1) break;
+            for( int i = 0; i < ans-1 ; i++){
+                if(mx > k) break;
+                if(check[i] == mx){
+                    int uu = _find(i);
+                    int vv = _find(i+1);
+                    pr[vv] = uu;
+                    int l1=0 , l2=0;
+                    //cout<<"-------------------------------"<<endl;
+                    //for(int j=0;j<g[uu].size();j++)cout<<g[uu][j]<<" ";cout<<"uu"<<endl;
+                    //for(int j=0;j<g[vv].size();j++)cout<<g[vv][j]<<" ";cout<<"vv"<<endl;
+                    while( l1<g[uu].size() and l2 < g[vv].size()){
+                        if(g[uu][l1] == g[vv][l2]){
+                            l1++;
+                            l2++;
+                        }else if(g[uu][l1] < g[vv][l2]) l1++;
+                        else{
+                            g[uu].push_back(g[vv][l2]);
+                            l2++;
+                        }
+                    }
+                    while( l2 < g[vv].size()){
+                        g[uu].push_back(g[vv][l2]);
+                        l2++;
+                    }
+                    sort(g[uu].begin(),g[uu].end());
+                   // for(int j=0;j<g[uu].size();j++)cout<<g[uu][j]<<" ";cout<<"merge"<<" "<<k<<" "<<mx<<endl;
+                    //cout<<"--------------------------------"<<endl;
+                    g[vv].clear();
+                    pr[vv]=_find(i+2);
+                    i++;
+                    ans--;
+                    k -= mx;
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+                g[i].clear();
+                pr[i]=i;
+        }
+        printf("%d\n", ans);
+
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
